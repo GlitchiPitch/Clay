@@ -9,18 +9,6 @@
     "ServerScriptService": {
       "$className": "ServerScriptService",
       "$path": "Scripts/ServerScriptService"
-    },
-    "ServerStorage": {
-      "$className": "ServerStorage",
-      "$path": "Scripts/ServerStorage"
-    },
-    "StarterGui": {
-      "$className": "StarterGui",
-      "$path": "Scripts/StarterGui"
-    },
-    "Workspace": {
-      "$className": "Workspace",
-      "$path": "Scripts/Workspace"
     }
   }
 }
