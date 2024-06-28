@@ -1,4 +1,4 @@
-local star = {
+local star = { -- 13 size
     {2, 7}, {3, 6},
     {3, 7}, {3, 8},
     {4, 4}, {4, 5},
@@ -18,6 +18,53 @@ local star = {
     {11, 6}, {11, 7},
     {11, 8}, {12, 7}
 }
+
+local star2 = { -- size 10
+    {2, 4}, {2, 5}, 
+    {2, 6}, {2, 7}, 
+    {3, 4}, {3, 7}, 
+    {4, 2}, {4, 3}, 
+    {4, 4}, {4, 7}, 
+    {4, 8}, {4, 9}, 
+    {5, 2}, {5, 9}, 
+    {6, 2}, {6, 9}, 
+    {7, 2}, {7, 3}, 
+    {7, 4}, {7, 7}, 
+    {7, 8}, {7, 9}, 
+    {8, 4}, {8, 7}, 
+    {9, 4}, {9, 5}, 
+    {9, 6}, {9, 7},
+}
+
+local frenchKiss = { -- size 10, 9
+    {1, 8}, {1, 9}, 
+    {2, 8}, {3, 5}, 
+    {3, 6}, {3, 8}, 
+    {4, 4}, {4, 7}, 
+    {5, 4}, {5, 5}, 
+    {6, 5}, {6, 6}, 
+    {7, 3}, {7, 6}, 
+    {8, 2}, {8, 4}, 
+    {8, 5}, {9, 2}, 
+    {10, 1}, {10, 2},
+}
+
+local s = { -- size 8
+    {1, 4}, {1, 5}, 
+    {2, 3}, {2, 6}, 
+    {3, 2}, {3, 7}, 
+    {4, 1}, {4, 8}, 
+    {5, 1}, {5, 8}, 
+    {6, 2}, {6, 7}, 
+    {7, 3}, {7, 6}, 
+    {8, 4}, {8, 5},
+}
+
+-- можно брать мин\макс значение по координатам из таблицы и использовать это для циклов
+
+local matrixWidth = 8
+local matrixHeight = 8
+
 local parts = Instance.new('Folder')
 parts.Parent = workspace
 
@@ -27,11 +74,8 @@ function countNeighbours(x, z)
 	local sum = 0
 	for i = -1, 1 do
 		for j = -1, 1 do
-			local col = ((x + i + 13) % 13)
-			local row = ((z + j + 13) % 13)
-            -- this checks from the opposite 
-			-- local col = ((x + i + 13) % 13)
-			-- local row = ((z + j + 13) % 13)
+			local col = x + i
+			local row = z + j
             if not (defaultMatrix[col] == nil) then
                 if not (defaultMatrix[col][row] == nil) then
                     sum += defaultMatrix[col][row]
@@ -40,25 +84,14 @@ function countNeighbours(x, z)
 		end
 	end
 	sum -= defaultMatrix[x][z]
-
 	return sum
 end
 
---[[
-
-Any live cell with fewer than two live neighbours dies, as if by underpopulation.
-Any live cell with two or three live neighbours lives on to the next generation.
-Any live cell with more than three live neighbours dies, as if by overpopulation.
-Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-
-
-]]
-
 function update()
 	local nextGrid = {}
-	for i = 1, 13 do
+	for i = 1, matrixWidth do
 		nextGrid[i] = {}
-		for j = 1, 13 do
+		for j = 1, matrixHeight do
 			local neighbours = countNeighbours(i, j)
             -- print(neighbours)
 			local state = defaultMatrix[i][j]
@@ -86,9 +119,9 @@ end
 
 function createMatrix()
     local m = {}
-    for x = 1, 13 do 
+    for x = 1, matrixWidth do 
         table.insert(m, {}) 
-        for y = 1, 13 do 
+        for z = 1, matrixHeight do 
             table.insert(m[x], 0)
         end
     end
@@ -104,8 +137,8 @@ function fillMatrix(matrixForFill: {})
 end
 
 function spawnMatrix()
-    for x = 1, 13 do 
-        for z = 1, 13 do 
+    for x = 1, matrixWidth do 
+        for z = 1, matrixHeight do 
             if defaultMatrix[x][z] == 1 then
                 createPart(Vector3.new(x, 5, z))
             end
@@ -117,7 +150,7 @@ function clearMatrix()
     parts:ClearAllChildren()
 end
 
-fillMatrix(star)
+fillMatrix(s)
 
 while true do
     spawnMatrix() 

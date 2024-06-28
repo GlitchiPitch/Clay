@@ -1,5 +1,12 @@
 from PIL import Image
 
+MATRIX_SIZE = 8
+
+# Images\JdlV_osc_5.64.gif size 8
+# french kiss 10, 9 size
+# star size 13
+# star 2 size 10
+
 def returnFrames(path: str):
     gif = Image.open(path)
     frames = []
@@ -21,7 +28,7 @@ def returnMatrix(frames):
     image = image.convert('L')
 
     # Resize the image to (13, 13) using bilinear interpolation
-    resized_image = image.resize((13, 13), Image.BILINEAR)
+    resized_image = image.resize((MATRIX_SIZE, MATRIX_SIZE), Image.BILINEAR)
 
     # Get the pixel values as a list
     pixels = list(resized_image.getdata())
@@ -50,7 +57,7 @@ def show_matrix(matrix):
         print(row)
 
 
-frames = returnFrames('Images\JdlV_osc_3.169.gif')
+frames = returnFrames('Images\JdlV_osc_5.64.gif')
 matrix = returnMatrix(frames)
 show_matrix(matrix)
 filled_cells = get_filled_cells_indexies(matrix)
